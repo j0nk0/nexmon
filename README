@@ -1,0 +1,48 @@
+FIRST OF ALL
+This isn't my work all credits goes to nexmon team for patched firmware and libs Github(https://github.com/seemoo-lab/nexmon)
+And for @chrisk44 for Hijacker App Github, XDA
+
+Tested on Galaxy s6 MM and should work on every android device with BCM4358.
+Requirement:
+-BCM4358
+-Root SuperSU
+-BusyBox
+
+Download:
+-Download Hijacker App From Here.https://github.com/chrisk44/Hijacker/releases
+-The two firmware files in this dir, .patched and .original in case you didn't backup yours.(or get them from nexmon git)
+#===================================================================================================#
+Installation:
+-Rename the firmware from "bcmdhd_sta.bin.patched" to "bcmdhd_sta.bin"
+-Copy the renamed file to "/system/etc/wifi" (Backup the original first) set permission to 644 (rw,r,r)
+-Create empty file in "/vendor/firmware/" and name it "fw_bcmdhd.bin"
+-Open Hijacker app follow the installation instruction (if you got an error "Your device is not supported ... bcm4339 ... bla bla bla." Long click the install button)
+-REBOOT
+#===================================================================================================#
+#Installation commands,
+ adb root
+#Upload file
+ adb push bcmdhd_sta.bin.patched /data/tmp/
+#Rename new file
+ adb shell su -c "mv /data/tmp/bcmdhd_sta.bin.patched /data/tmp/bcmdhd_sta.bin"
+#Backup original
+ adb shell su -c "/system/etc/wifi/bcmdhd_sta.bin /system/etc/wifi/bcmdhd_sta.bin_original"
+#CP original backup to sdcard
+ adb shell su -c "cp /system/etc/wifi/bcmdhd_sta.bin_original /sdcard/bcmdhd_sta.bin_original_S6"
+#Move new file into place
+ adb shell su -c "mv /data/tmp/bcmdhd_sta.bin /system/etc/wifi/bcmdhd_sta.bin"
+#Set right permissions
+ adb shell su -c "chmod 644 /system/etc/wifi/bcmdhd_sta.bin"
+#Create empty file
+ adb shell su -c "touch /vendor/firmware/fw_bcmdhd.bin"
+#===================================================================================================#
+
+Everything should be working fine now, open Hijacker app and test it.
+[Disconnect from all the network or turn your wifi off for Hijacker app to work]
+
+Bugs:
+-Your WiFi will sometimes restart itself (Phone restart will fix this)
+-Others? I don't know you tell me.
+
+Working/Not Working:
+-See Nexmon and Hijacker Git Repo.
